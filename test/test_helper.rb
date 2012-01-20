@@ -81,8 +81,8 @@ class Test::Unit::TestCase
   def new_mock_socket(host='localhost', port=27017)
     socket = Object.new
     socket.stubs(:setsockopt).with(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
-    socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, 1)
-    socket.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_KEEPIDLE, 300)
+    socket.stubs(:setsockopt).with(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, 1)
+    socket.stubs(:setsockopt).with(Socket::IPPROTO_TCP, Socket::TCP_KEEPIDLE, 300)
     socket.stubs(:close)
     socket.stubs(:closed?)
     socket
