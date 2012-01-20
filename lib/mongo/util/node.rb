@@ -48,8 +48,9 @@ module Mongo
           return nil
         else
           socket.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
-          socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, 1)
-          socket.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_KEEPIDLE, 300)
+          # Below constants are available only on Linux
+          #socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, 1) if defined?(Socket::SO_KEEPALIVE)
+          #socket.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_KEEPIDLE, 300) if defined?(Socket::TCP_KEEPIDLE)
         end
       rescue OperationTimeout, OperationFailure, SocketError, SystemCallError, IOError => ex
         @connection.log(:debug, "Failed connection to #{host_string} with #{ex.class}, #{ex.message}.")
