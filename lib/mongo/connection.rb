@@ -611,10 +611,14 @@ module Mongo
           Mongo::TimeoutHandler.timeout(@connect_timeout, OperationTimeout) do
             socket = @socket_class.new(host, port)
             socket.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
+            socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, 1)
+            socket.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_KEEPIDLE, 300)
           end
         else
           socket = @socket_class.new(host, port)
           socket.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
+          socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, 1)
+          socket.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_KEEPIDLE, 300)
         end
 
         if @connect_timeout
